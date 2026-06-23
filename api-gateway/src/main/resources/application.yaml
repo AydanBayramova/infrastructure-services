@@ -1,0 +1,43 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://ms-user
+          predicates:
+            - Path=/api/v1/users/**, /api/v1/addresses/**
+
+        - id: order-service
+          uri: lb://ms-order
+          predicates:
+            - Path=/api/v1/orders/**
+
+        - id: courier-service
+          uri: lb://ms-courier
+          predicates:
+            - Path=/api/v1/couriers/**
+
+        - id: merchant-service
+          uri: lb://ms-merchant
+          predicates:
+            - Path=/api/v1/merchants/**, /api/v1/products/**
+
+        - id: rating-service
+          uri: lb://ms-rating
+          predicates:
+            - Path=/api/v1/ratings/**
+
+        - id: tracking-service
+          uri: lb://ms-tracking
+          predicates:
+            - Path=/api/v1/tracking/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
